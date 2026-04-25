@@ -1,58 +1,137 @@
-# DocForge
+# DocForge 📝
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Docs-Auto-FF6B6B?style=for-the-badge&logo=book&logoColor=white" alt="Docs">
-  <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
-</p>
+Auto-generate beautiful documentation from Python source code using AST analysis.
 
-> 📖 **Auto-Generated Documentation** - Generates documentation from code, tests, and commits. Maintains docs as code evolves.
+## Features
 
-## ✨ Features
+- **AST-Based Analysis**: Parses Python code using the Abstract Syntax Tree
+- **Smart Docstring Parsing**: Extracts Args, Returns, Raises, Examples sections
+- **Multiple Output Formats**: Console, Markdown
+- **Type Hints Support**: Preserves type annotations in documentation
+- **Decorator Tracking**: Documents decorators on functions and classes
+- **Project Analysis**: Analyze entire directories
 
-### Documentation Types
-- 📄 **API Docs** - Endpoints, parameters, examples
-- 📦 **SDK Docs** - Libraries, packages, modules
-- 🏗️ **Architecture** - System design, diagrams
-- 📖 **Guides** - Tutorials, how-tos
-- 📋 **Reference** - Type definitions, schemas
-
-### Generation Sources
-- 💻 **Code Analysis** - AST parsing, type inference
-- 🧪 **Tests** - Extract examples from tests
-- 📝 **Commits** - Track changes over time
-- 🗒️ **Comments** - Inline documentation
-- 🏷️ **Annotations** - JSDoc, docstrings
-
-### Output Formats
-- 🌐 **Markdown** - GitHub/GitLab compatible
-- 📘 **OpenAPI** - Swagger documentation
-- 📑 **HTML** - Static site generation
-- 📱 **Docusaurus** - Export to Docusaurus
-- 📖 **MkDocs** - MkDocs compatible
-
-## 📦 Installation
+## Installation
 
 ```bash
-git clone https://github.com/moggan1337/DocForge.git
-cd DocForge
 pip install -r requirements.txt
-docforge init
 ```
 
-## 🚀 Usage
+Or install locally:
 
 ```bash
-# Generate docs for a project
-docforge generate ./my-project
-
-# Watch mode - regenerate on changes
-docforge watch ./my-project
-
-# Serve locally
-docforge serve ./docs
+pip install click jinja2 markdown astor colorama
 ```
 
-## 📄 License
+## Usage
 
-MIT License
+### Generate documentation for a file
+
+```bash
+python src/cli.py generate path/to/module.py
+```
+
+### Generate documentation for a directory
+
+```bash
+python src/cli.py generate path/to/project
+```
+
+### Generate Markdown output
+
+```bash
+python src/cli.py generate path/to/module.py --format markdown -o docs.md
+```
+
+### Analyze code statistics
+
+```bash
+python src/cli.py analyze path/to/project
+```
+
+### Initialize project documentation
+
+```bash
+python src/cli.py init path/to/project
+```
+
+## Examples
+
+### Console Output
+
+```bash
+$ python src/cli.py generate my_module.py --verbose
+
+## Module: my_module
+========================
+
+### Classes (1):
+
+  class MyClass
+    - attribute1: str
+
+    Methods:
+      method1()
+
+## Functions (1):
+
+  def process_data(input: str, options: Dict) -> bool
+```
+
+### Markdown Output
+
+Generates well-structured Markdown with:
+- Module overview
+- Class documentation with inheritance
+- Method signatures and docstrings
+- Parameter documentation
+- Return types
+- Raises sections
+
+## Command Options
+
+- `generate` - Generate documentation
+  - `--output, -o` - Output file path
+  - `--verbose, -v` - Verbose output
+  - `--format, -f` - Output format (console/markdown)
+
+- `analyze` - Show code statistics
+
+- `init` - Initialize project documentation
+
+## Docstring Format
+
+DocForge supports Google-style and NumPy-style docstrings:
+
+```python
+def process_data(input: str, count: int = 10) -> bool:
+    """Process input data.
+
+    Args:
+        input: The input string to process
+        count: Number of iterations (default: 10)
+
+    Returns:
+        True if successful, False otherwise
+
+    Raises:
+        ValueError: If input is empty
+
+    Example:
+        >>> process_data("hello", 5)
+        True
+    """
+    pass
+```
+
+## Architecture
+
+```
+src/
+├── cli.py          # Click CLI interface
+└── generator.py    # AST code analysis
+```
+
+## License
+
+MIT
